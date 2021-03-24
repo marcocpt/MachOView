@@ -40,3 +40,11 @@ otool_disasm/disasm.xcodeproj/.svn/entries
 otool_disasm/disasm.xcodeproj/.svn/text-base/project.pbxproj.svn-base
 *.xcuserstate
 IDEFindNavigatorScopes.plist
+xcschememanagement.plist
+
+project.xcworkspace  
+xcuserdata  
+UserInterfaceState.xcuserstate  
+project.xcworkspace/  
+xcuserdata/  
+UserInterface.xcuserstate
