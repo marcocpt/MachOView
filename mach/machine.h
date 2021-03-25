@@ -232,6 +232,9 @@ typedef integer_t	cpu_threadtype_t;
 #define CPU_SUBTYPE_X86_64_ALL		((cpu_subtype_t)3)
 #define CPU_SUBTYPE_X86_ARCH1		((cpu_subtype_t)4)
 
+// Haswell之后的叫x86_64h
+#define CPU_SUBTYPE_X86_64_H    ((cpu_subtype_t) 8)
+
 
 #define CPU_THREADTYPE_INTEL_HTT	((cpu_threadtype_t) 1)
 

@@ -1063,7 +1063,8 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
                   mach_header_64->filetype == MH_DYLIB_STUB  ? @"Shared Library Stub" :
                   mach_header_64->filetype == MH_DSYM        ? @"Debug Symbols" :
                   mach_header_64->filetype == MH_KEXT_BUNDLE ? @"Kernel Extension" : @"?????",
-                  [machine isEqualToString:@"ARM64"] == YES ? [self getARM64Cpu:mach_header_64->cpusubtype] : machine];
+                  [machine isEqualToString:@"ARM64"] == YES ? [self getARM64Cpu:mach_header_64->cpusubtype] :
+                  mach_header_64->cpusubtype == CPU_SUBTYPE_X86_64_H ? @"X86_64H" : machine];
   
   MachOLayout * layout = [MachOLayout layoutWithDataController:self rootNode:node];
 

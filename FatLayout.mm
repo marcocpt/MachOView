@@ -130,7 +130,8 @@ using namespace std;
                             fat_arch.cputype == CPU_TYPE_I386 ?
                             ((fat_arch.cpusubtype & ~CPU_SUBTYPE_MASK) == CPU_SUBTYPE_I386_ALL ? @"CPU_SUBTYPE_I386_ALL" : @"???") :
                             fat_arch.cputype == CPU_TYPE_X86_64 ?
-                            ((fat_arch.cpusubtype & ~CPU_SUBTYPE_MASK) == CPU_SUBTYPE_X86_64_ALL ? @"CPU_SUBTYPE_X86_64_ALL" : @"???") : 
+                            ((fat_arch.cpusubtype & ~CPU_SUBTYPE_MASK) == CPU_SUBTYPE_X86_64_ALL ? @"CPU_SUBTYPE_X86_64_ALL" :
+                                (fat_arch.cpusubtype & ~CPU_SUBTYPE_MASK) == CPU_SUBTYPE_X86_64_H ? @"CPU_SUBTYPE_X86_64_H" : @"???") :
                              @"???"];
     
     [dataController read_uint32:range lastReadHex:&lastReadHex];
