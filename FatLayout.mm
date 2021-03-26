@@ -24,6 +24,7 @@ using namespace std;
 @implementation FatLayout
 
 //-----------------------------------------------------------------------------
+/// 调用父类初始化
 - (id)initWithDataController:(MVDataController *)dc rootNode:(MVNode *)node
 {
   if (self = [super initWithDataController:dc rootNode:node])

@@ -35,6 +35,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/// 在 /usr/lib/system/libmacho.dylib 中的函数
+/// 源码: https://opensource.apple.com/source/cctools/cctools-973.0.1/libmacho/swap.c.auto.html
+/// 头文件: https://opensource.apple.com/source/cctools/cctools-973.0.1/include/mach-o/swap.h.auto.html
 extern void swap_fat_header(
     struct fat_header *fat_header,
     enum NXByteOrder target_byte_order);

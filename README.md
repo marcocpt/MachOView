@@ -36,6 +36,10 @@ fG!
 
 - [ ] `__TEXT,__stubs`中的 Data 为汇编，将 Description 改为汇编
 
+# FIXME
+
+- [ ] [1] `__DATA,__data` 未能解析
+
 # 流程分析
 
 选择 File - Open Recent 打开文件时，调用 AppController.mm 的方法
@@ -43,5 +47,13 @@ fG!
 ```objc
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 ```
+
+# MVLayout
+
+包含三种子类:
+
+1. FatLayout: 胖文件的头部
+2. MachOLayout: 胖文件中的任一架构或单一的 Mach-O 文件
+3. ArchiveLayout: 归档的文件
 
 来打开文件。

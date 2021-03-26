@@ -29,10 +29,10 @@
 
 @interface MVDocument : NSDocument
 {
-  IBOutlet MVOutlineView *        leftView;
-  IBOutlet MVTableView *          rightView;
-  IBOutlet NSSearchField *        searchField;
-  IBOutlet NSTextField *          statusText;
+  IBOutlet MVOutlineView *        leftView;           ///< 左边列表视图
+  IBOutlet MVTableView *          rightView;          ///< 主窗口表格视图
+  IBOutlet NSSearchField *        searchField;        ///< 搜索框字段
+  IBOutlet NSTextField *          statusText;         ///< 底部状态栏字段
   IBOutlet NSProgressIndicator *  progressIndicator;
   IBOutlet NSSegmentedControl *   offsetModeSwitch;
   IBOutlet NSButton *             stopButton;

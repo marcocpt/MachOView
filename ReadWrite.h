@@ -19,13 +19,44 @@
 - (int32_t)     read_int32:(NSRange &)range;  
 - (int64_t)     read_int64:(NSRange &)range;
 
+/// 从 range 末尾开始读取 uint8_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (uint8_t)     read_uint8:(NSRange &)range   lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 uint16_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (uint16_t)    read_uint16:(NSRange &)range  lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 uint32_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (uint32_t)    read_uint32:(NSRange &)range  lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 uint64_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (uint64_t)    read_uint64:(NSRange &)range  lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 int8_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (int8_t)      read_int8:(NSRange &)range    lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 int16_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (int16_t)     read_int16:(NSRange &)range   lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 int32_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (int32_t)     read_int32:(NSRange &)range   lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从 range 末尾开始读取 int64_t 长的数据
+/// @param range 并更新 range 为对应读取的内容
+/// @param lastReadHex 读取数据的 16 进制数据字符串
 - (int64_t)     read_int64:(NSRange &)range   lastReadHex:(NSString * __autoreleasing *)lastReadHex;
 
 - (NSString *)  read_string:(NSRange &)range;

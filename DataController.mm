@@ -436,6 +436,8 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //-----------------------------------------------------------------------------
+/// 使用 _archiver 初始化
+/// @param _archiver 设定 archiver 属性
 - (id)initWithArchiver:(MVArchiver *)_archiver
 {
   if (self = [super init])
@@ -448,6 +450,8 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+/// 使用 _archiver 初始化
+/// @param _archiver 设定 archiver 属性
 +(MVTable *) tableWithArchiver:(MVArchiver *)_archiver
 {
   return [[MVTable alloc] initWithArchiver:_archiver];
@@ -741,6 +745,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+/// 按节点在对应源文件中的位置进行插入, 并更新 updateTreeView
 - (void)insertNode:(MVNode *)node
 {
   MVLayout * layout = [userInfo objectForKey:MVLayoutUserInfoKey];
@@ -1102,12 +1107,11 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
-// create Mach-O layouts based on file headers
 - (void)createLayouts:(MVNode *)parent
              location:(uint32_t)location
-               length:(uint32_t)length
-{
-  uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes] + location);
+               length:(uint32_t)length {
+  /// 获得魔数
+  uint32_t magic = *(uint32_t *)((uint8_t *)[fileData bytes] + location);
   
   switch (magic)
   {
@@ -1242,14 +1246,17 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 @synthesize swapPath;
 
 //-----------------------------------------------------------------------------
-- (id)init
+- (instancetype)init
 {
   NSAssert(NO, @"plain init is not allowed");
   return nil;
 }
 
 //-----------------------------------------------------------------------------
--(id) initWithPath:(NSString *)path
+
+/// 初始化各属性, 并在 path 的文件写入头部信息: "!<MachoViewSwapFile 1.0>\n"
+/// @param path 设定 swapPath
+-(instancetype) initWithPath:(NSString *)path
 {  
   if (self = [super init]) 
   {

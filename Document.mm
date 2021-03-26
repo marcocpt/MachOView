@@ -401,6 +401,7 @@ enum ViewType
 }
 
 //----------------------------------------------------------------------------
+/// MVDataTreeChangedNotification
 - (void)handleDataTreeChanged:(NSNotification *)notification
 {
   if ([notification object] == dataController)
@@ -536,7 +537,7 @@ enum ViewType
 
   NSURL * tmpURL = [NSURL fileURLWithPath:[NSString stringWithUTF8String:tmpFilePath]];
   free(tmpFilePath);
-
+  // 将源文件复制到临时目录
   [[NSFileManager defaultManager] copyItemAtURL:absoluteURL
                                           toURL:tmpURL
                                           error:outError];

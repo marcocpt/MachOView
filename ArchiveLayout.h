@@ -21,6 +21,7 @@
 
 @end
 
+/// 归档布局
 @interface ArchiveLayout : MVLayout 
 {
   NSMutableDictionary * objectInfoMap; // <(NSNumber)object offset,MVObjectInfo>
