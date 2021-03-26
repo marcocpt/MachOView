@@ -98,6 +98,13 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //-----------------------------------------------------------------------------
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"offset: %@\tdata: %@,\tdescription:%@\tvalue: %@",
+          offsetStr, dataStr, descriptionStr, valueStr];
+}
+
+//-----------------------------------------------------------------------------
 -(void)dealloc
 {
 #ifdef MV_STATISTICS
@@ -132,6 +139,13 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 #ifdef MV_STATISTICS  
   OSAtomicDecrement64(&nrow_total);
 #endif
+}
+
+//-----------------------------------------------------------------------------
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"coloums: %@\nattributes: %@\noffset: 0x%x, coloumsOffset: 0x%x, attributesOffset: %x, deleted: %@, dirty: %@",
+          coloumns, attributes, offset, coloumnsOffset, attributesOffset, deleted ? @"YES" : @"NO", dirty ? @"YES" : @"NO"];
 }
 
 //-----------------------------------------------------------------------------
@@ -458,6 +472,14 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"<%@: %p> row: %@",
+          self.class, self, rows];
+}
+
+
+//----------------------------------------------------------------------------
 - (NSUInteger)rowCountToDisplay
 {
   return [displayRows count];
@@ -729,7 +751,8 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 //----------------------------------------------------------------------------
 -(NSString *)description
 {
-  return [[super description] stringByAppendingFormat:@" [%@]", caption];
+  return [NSString stringWithFormat:@"<%@: %p> [%@]\ndataRange: [0x%lx, 0x%lx]\ndetails: %@\nuserInfo: %@\ndetailsOffset: 0x%x\nparent: %p [%@]\nchildren: %@",
+          [self class], self, caption, dataRange.location, dataRange.length, details, userInfo, detailsOffset, parent, parent.caption, children];
 }
 
 //----------------------------------------------------------------------------
@@ -1289,6 +1312,13 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 +(MVArchiver *) archiverWithPath:(NSString *)path
 {
   return [[MVArchiver alloc] initWithPath:path];
+}
+
+//-----------------------------------------------------------------------------
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"swapPath: %@\nobjectsToSave: %@\nsaverThread: %@\nsaverLock: %@",
+          swapPath, self->objectsToSave, self->saverThread, self->saverLock];
 }
 
 //-----------------------------------------------------------------------------
