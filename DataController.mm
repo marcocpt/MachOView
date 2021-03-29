@@ -1347,7 +1347,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //-----------------------------------------------------------------------------
--(void) addObjectToSave:(id)object;
+-(void) addObjectToSave:(id<MVSerializing>)object;
 {
   NSParameterAssert([object conformsToProtocol:@protocol(MVSerializing)] == YES);
   
