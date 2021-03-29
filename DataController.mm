@@ -1323,8 +1323,8 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 //-----------------------------------------------------------------------------
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"swapPath: %@\nobjectsToSave: %@\nsaverThread: %@\nsaverLock: %@",
-          swapPath, self->objectsToSave, self->saverThread, self->saverLock];
+  return [NSString stringWithFormat:@"swapPath: %@\nsaverThread: %@\nsaverLock: %@",
+          swapPath, saverThread, saverLock];
 }
 
 //-----------------------------------------------------------------------------
