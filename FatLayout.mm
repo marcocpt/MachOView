@@ -41,6 +41,7 @@ using namespace std;
 }
 
 //----------------------------------------------------------------------------
+/// 创建 "Fat Header" 节点
 - (MVNode *)createHeaderNode:(MVNode *)parent
                      caption:(NSString *)caption
                     location:(uint32_t)location
@@ -169,7 +170,7 @@ using namespace std;
   {
     swap_fat_header(&fat_header, NX_LittleEndian);
   }
-  
+  // 创建 "Fat Header" 节点
   [self createHeaderNode:rootNode 
                  caption:@"Fat Header"
                 location:imageOffset 

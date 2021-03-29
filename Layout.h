@@ -18,11 +18,11 @@
 
 @interface MVLayout : NSObject 
 {
-  MVNode *              __weak rootNode;        ///< 根节点
-  MVDataController *    __weak dataController;  ///< 
+  MVNode *              __weak rootNode;        ///< 布局对象的根节点
+  MVDataController *    __weak dataController;  ///<
   uint32_t              imageOffset;  ///< absolute physical offset of the image in binary
   uint32_t              imageSize;    ///< size of the image corresponds to this layout
-  NSThread *            backgroundThread;
+  NSThread *            backgroundThread; ///< 后台线程用来处理 doBackgroundTasks
   MVArchiver *          archiver;
 }
 
@@ -31,14 +31,18 @@
 @property(nonatomic,readonly) MVArchiver * archiver;
 
 - (id)                  initWithDataController:(MVDataController *)dc rootNode:(MVNode *)node;
+///dataController.realData  中位于 location 的指针
 - (void const *)        imageAt:(uint32_t)location;
 - (void)                printException:(NSException *)exception caption:(NSString *)caption;
+/// 是 64 位架构
 - (BOOL)                is64bit;
+/// 在主线程解析 `MVLayout` 生成节点对象用于 `leftView` 显示
 - (void)                doMainTasks;
 - (void)                doBackgroundTasks;
 - (NSString *)          convertToRVA: (NSString *)offsetStr;
 - (MVNode *)            findNodeByUserInfo:(NSDictionary *)userInfo;
 
+/// Create data node without details table (only hex content)
 - (MVNode *)            createDataNode:(MVNode *)parent
                                caption:(NSString *)caption
                               location:(uint32_t)location

@@ -21,7 +21,7 @@
 
 @end
 
-/// 归档布局
+/// 归档布局. 魔数未定义时使用
 @interface ArchiveLayout : MVLayout 
 {
   NSMutableDictionary * objectInfoMap; // <(NSNumber)object offset,MVObjectInfo>

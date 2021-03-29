@@ -527,8 +527,8 @@ enum ViewType
 {
   // create a temporary copy for patching
   const char *tmp = [[MVDocument temporaryDirectory] UTF8String];
-  char *tmpFilePath = strdup(tmp);
-  if (mktemp(tmpFilePath) == NULL)
+  char *tmpFilePath = strdup(tmp); // strdup: save a copy of a string
+  if (mktemp(tmpFilePath) == NULL) // mktemp: make temporary file name (unique)
   {
     NSLog(@"mktemp failed!");
     free(tmpFilePath);

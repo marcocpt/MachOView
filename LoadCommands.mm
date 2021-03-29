@@ -298,7 +298,7 @@ using namespace std;
   return node;
 }
 
-//-----------------------------------------------------------------------------
+/// 创建 LC_SEGMENT_64 节点对象.
 - (MVNode *)createLCSegment64Node:(MVNode *)parent
                         caption:(NSString *)caption
                        location:(uint32_t)location
@@ -395,11 +395,11 @@ using namespace std;
   if (segment_command_64->flags & SG_FVMLIB)              [node.details appendRow:@"":@"":@"00000002":@"SG_FVMLIB"];
   if (segment_command_64->flags & SG_NORELOC)             [node.details appendRow:@"":@"":@"00000004":@"SG_NORELOC"];
   if (segment_command_64->flags & SG_PROTECTED_VERSION_1) [node.details appendRow:@"":@"":@"00000008":@"SG_PROTECTED_VERSION_1"];
-  
+  // TODO: SG_READ_ONLY
   return node;
 }
 
-//-----------------------------------------------------------------------------
+/// 创建 Section64 Header 节点
 - (MVNode *)createSection64Node:(MVNode *)parent
                     caption:(NSString *)caption
                    location:(uint32_t)location
@@ -464,7 +464,7 @@ using namespace std;
                          :lastReadHex
                          :@"Flags"
                          :@""];
-  
+  // TODO: S_INIT_FUNC_OFFSETS
   switch (section_64->flags & SECTION_TYPE)
   {
     case S_REGULAR:                             [node.details appendRow:@"":@"":@"00000000":@"S_REGULAR"]; break;
@@ -580,7 +580,7 @@ using namespace std;
   return node;
 }
 
-//-----------------------------------------------------------------------------
+///创建LC_DYSYMTAB 节点
 - (MVNode *)createLCDysymtabNode:(MVNode *)parent
                        caption:(NSString *)caption
                       location:(uint32_t)location
@@ -846,7 +846,7 @@ using namespace std;
 }
 
   
-//-----------------------------------------------------------------------------
+/// 创建 LC_UUID 节点
 - (MVNode *)createLCUUIDNode:(MVNode *)parent
                    caption:(NSString *)caption
                   location:(uint32_t)location
@@ -1202,7 +1202,7 @@ using namespace std;
   return node;
 }
 
-//-----------------------------------------------------------------------------
+/// 创建 LC_ROUTINES_64 节点
 - (MVNode *)createLCLinkeditDataNode:(MVNode *)parent
                            caption:(NSString *)caption
                           location:(uint32_t)location
@@ -1587,7 +1587,7 @@ using namespace std;
   return node;
 }
 
-//-----------------------------------------------------------------------------
+/// 创建 LC_DYLD_INFO, LC_DYLD_INFO_ONLY 节点
 - (MVNode *)createLCDyldInfoNode:(MVNode *)parent
                          caption:(NSString *)caption
                         location:(uint32_t)location
@@ -2132,10 +2132,10 @@ using namespace std;
                                 location:location
                       segment_command_64:segment_command_64];
       
-      // preserv segment RVA/size for offset lookup
-      segmentInfo[segment_command_64->fileoff + imageOffset] = make_pair(segment_command_64->vmaddr, segment_command_64->vmsize);
+      // preserve segment RVA/size for offset lookup
+      segmentInfo[segment_command_64->fileoff + imageOffset] = make_pair(segment_command_64->vmaddr, segment_command_64->vmsize); // make_pair: Creates a std::pair object, deducing the target type from the types of arguments.
       
-      // preserv load segment command info for latter use
+      // preserve load segment command info for latter use
       segments_64.push_back(segment_command_64);
 
       // Section Headers
@@ -2149,7 +2149,7 @@ using namespace std;
                          location:sectionloc
                        section_64:section_64];
         
-        // preserv section fileOffset/sectName for RVA lookup
+        // preserve section fileOffset/sectName for RVA lookup
         NSDictionary * userInfo = [self userInfoForSection64:section_64];
         uint64_t key  = section_64->addr;
         sectionInfo[key] = make_pair(section_64->offset + imageOffset, userInfo);

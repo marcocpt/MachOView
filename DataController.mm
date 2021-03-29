@@ -177,6 +177,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //-----------------------------------------------------------------------------
+/// 将 str 写入 pFile
 - (void)writeString:(NSString *)str toFile:(FILE *)pFile
 {
   if (str) {
@@ -200,6 +201,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //-----------------------------------------------------------------------------
+/// 将 color 序列化后存入 pFile
 - (void)writeColor:(NSColor *)color toFile:(FILE *)pFile
 {
   int colorOrdinal = [color isEqualTo:[NSColor blackColor]]     ? MVBlackColorOrdinal
@@ -221,14 +223,14 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
   putc(colorOrdinal, pFile);
   if (colorOrdinal == 0)
   {
-  CGFloat red, green, blue, alpha;
-  [color getRed:&red green:&green blue:&blue alpha:&alpha];
-  float fred = red, fgreen = green, fblue = blue, falpha = alpha;
-  fwrite(&fred, sizeof(float), 1, pFile);
-  fwrite(&fgreen, sizeof(float), 1, pFile);
-  fwrite(&fblue, sizeof(float), 1, pFile);
-  fwrite(&falpha, sizeof(float), 1, pFile);
-}
+    CGFloat red, green, blue, alpha;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    float fred = red, fgreen = green, fblue = blue, falpha = alpha;
+    fwrite(&fred, sizeof(float), 1, pFile);
+    fwrite(&fgreen, sizeof(float), 1, pFile);
+    fwrite(&fblue, sizeof(float), 1, pFile);
+    fwrite(&falpha, sizeof(float), 1, pFile);
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -262,6 +264,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+/// 将 attributes 保存到 pFile
 - (void)saveAttributestoFile:(FILE *)pFile
 {
   uint32_t numAttributes = [attributes count];
@@ -554,8 +557,8 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
-//  input are name-value pairs
-//----------------------------------------------------------------------------
+
+/// input are name-value pairs
 -(NSMutableDictionary *)attributesWithPairs:(id)firstArg :(va_list)args
 {
   NSMutableDictionary * attributes = [[NSMutableDictionary alloc] init];
@@ -577,6 +580,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+/// 设置 row.attributes
 - (void)setAttributes:(NSMutableDictionary *)attributes forRow:(MVRow *)row
 {
   NSParameterAssert(row != nil);
@@ -1030,6 +1034,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+/// 是支持的 cpu 类型
 -(BOOL)isSupportedMachine:(NSString *)machine
 {
   return ([machine isEqualToString:@"X86"] == YES ||
@@ -1176,6 +1181,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //----------------------------------------------------------------------------
+/// 创建 "Fat Binary" 包含的 "Fat header" 和各种架构的布局
 -(void)createFatLayout:(MVNode *)node
             fat_header:(struct fat_header const *)fat_header
 {
@@ -1357,6 +1363,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
 }
 
 //-----------------------------------------------------------------------------
+/// 序列化 objectsToSave 中的对象并写到 swapPath 文件中
 -(void) doSave
 {
   for (;;)
@@ -1400,15 +1407,15 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
     
     if ([saverThread isCancelled])
     {
-    // only exit if buffer is surely empty
+      // only exit if buffer is surely empty
       if ([objectsToSave count] == 0)
-    {
-      break; // the nicest way
-      //return;
-      //[NSThread exit];
-    }
-      // do not wait for new rows if the saver has been cancelled
-      // just flush out the existing ones
+      {
+        break; // the nicest way
+        //return;
+        //[NSThread exit];
+      }
+        // do not wait for new rows if the saver has been cancelled
+        // just flush out the existing ones
       continue;
     }
     

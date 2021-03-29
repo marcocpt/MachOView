@@ -36,13 +36,16 @@ extern NSString * const MVStatusTaskTerminated;
 
 struct MVNodeSaver;
 
+/// 对象采用以提供序列化的协议。
 @protocol MVSerializing <NSObject>
 - (void)loadFromFile:(FILE *)pFile;
+/// 将对象序列化后写入 pFile
 - (void)saveToFile:(FILE *)pFile;
 - (void)clear;
 @end
 
 //----------------------------------------------------------------------------
+/// 一行数据中对应各列的显示数据
 @interface MVColoumns : NSObject
 {
   NSString *            offsetStr;      ///< pFile, Address, Offset
@@ -66,22 +69,23 @@ struct MVNodeSaver;
 @end
 
 //----------------------------------------------------------------------------
+/// 一行数据
 @interface MVRow : NSObject <MVSerializing>
 {
-  MVColoumns *          coloumns;         ///< 存储表格视图中显示的一行中各列的字符串数据
-  NSDictionary *        attributes;
+  MVColoumns *          coloumns;         ///< 存储表格视图中显示的一行中各列的字符串数据. 写入 swapFile 后清除
+  NSDictionary *        attributes;       ///< 显示属性. 写入 swapFile 后清除
   uint32_t              offset;           ///< for sorting if necessary
-  uint32_t              coloumnsOffset;   ///< offset of coloumns
-  uint32_t              attributesOffset; ///< offset of attribues
+  uint32_t              coloumnsOffset;   ///< offset of coloumns in swapFile
+  uint32_t              attributesOffset; ///< offset of attribues in swapFile
   BOOL                  deleted;
   BOOL                  dirty;            ///< eg. attributes has changed
 }
 
-@property (nonatomic)   NSDictionary * attributes;
-@property (nonatomic)   MVColoumns * coloumns;      ///< 存储表格视图中显示的一行中各列的字符串数据
-@property (nonatomic)   uint32_t offset;
+@property (nonatomic)   NSDictionary * attributes;  ///< 显示属性. 写入 swapFile 后清除
+@property (nonatomic)   MVColoumns * coloumns;      ///< 存储表格视图中显示的一行中各列的字符串数据. 写入 swapFile 后清除
+@property (nonatomic)   uint32_t offset;            ///< for sorting if necessary
 @property (nonatomic)   BOOL deleted;
-@property (nonatomic)   BOOL dirty;
+@property (nonatomic)   BOOL dirty;                 ///< eg. attributes has changed
 
 -(NSString *)coloumnAtIndex:(NSUInteger)index;
 
@@ -90,26 +94,43 @@ struct MVNodeSaver;
 @class MVArchiver;
 
 //----------------------------------------------------------------------------
+/// 对应 rightView 中显示的一页数据表
 @interface MVTable : NSObject
 {
   NSMutableArray<MVRow *>*      rows;         ///< array of MVRow * (host of all the rows)
   NSMutableArray<MVRow *>*      displayRows;  ///< array of MVRow * (rows filtered by search criteria)
   MVArchiver *          __weak archiver;
-  FILE *                swapFile;
+  FILE *                swapFile;             ///< 序列化存储的文件
   NSLock *              tableLock;
 }
 
-@property (nonatomic)   FILE * swapFile;
+@property (nonatomic)   FILE * swapFile;  ///< 序列化存储的文件
 
 - (NSUInteger)          rowCountToDisplay;
 - (MVRow *)             getRowToDisplay:(NSUInteger)rowIndex;
 
 - (void)                popRow;
+
+/// 添加 row 到 rows 和 archiver. row.offset = 0
+/// @param col0 offsetStr
+/// @param col1 dataStr
+/// @param col2 descriptionStr
+/// @param col3 valueStr
 - (void)                appendRow:(id)col0 :(id)col1 :(id)col2 :(id)col3;
+
+/// 添加 row 到 rows 和 archiver
+/// @param offset <#offset description#>
+/// @param col0 offsetStr
+/// @param col1 dataStr
+/// @param col2 descriptionStr
+/// @param col3 valueStr
 - (void)                insertRowWithOffset:(uint32_t)offset :(id)col0 :(id)col1 :(id)col2 :(id)col3;
 - (void)                updateCellContentTo:(id)object atRow:(NSUInteger)rowIndex andCol:(NSUInteger)colIndex;
 
 - (NSUInteger)          rowCount;
+
+/// 为 rows 中的最后一个 row 对象添加显示属性, 并将 row 添加到 archiver
+/// @param firstArg input are name-value pairs
 - (void)                setAttributes:(NSString *)firstArg, ... NS_REQUIRES_NIL_TERMINATION;
 - (void)                setAttributesForRowIndex:(NSUInteger)index :(NSString *)firstArg, ... NS_REQUIRES_NIL_TERMINATION;
 - (void)                setAttributesFromRowIndex:(NSUInteger)index :(NSString *)firstArg, ... NS_REQUIRES_NIL_TERMINATION;
@@ -117,21 +138,22 @@ struct MVNodeSaver;
 @end
 
 //----------------------------------------------------------------------------
+/// 对应 leftView 中的节点
 @interface MVNode : NSObject <MVSerializing>
 {
   NSString *            caption;          ///< 节点标题
   MVNode *              __weak parent;    ///< 父节点
   NSMutableArray *      children;         ///< 子节点
   NSRange               dataRange;        ///< 节点对应源文件中的数据范围
-  MVTable *             details;
+  MVTable *             details;          ///< 解析的详细信息的表格数据
   NSMutableDictionary * userInfo;
   uint32_t              detailsOffset;
 }
 
 @property (nonatomic)                   NSString *            caption;        ///< 节点标题, 作为侧边栏列表的标题
 @property (nonatomic,weak)              MVNode *              parent;         ///< 父节点
-@property (nonatomic)                   NSRange               dataRange;      ///< 节点的数据范围
-@property (nonatomic)                   MVTable *             details;
+@property (nonatomic)                   NSRange               dataRange;      ///< 节点对应源文件中的数据范围
+@property (nonatomic)                   MVTable *             details;        ///< 解析的详细信息的表格数据
 /// 包含 MVLayoutUserInfoKey, MVNodeUserInfoKey, MVStatusUserInfoKey, MVStatusPenddingKey
 @property (nonatomic)                   NSMutableDictionary * userInfo;
 @property (nonatomic)                   uint32_t              detailsOffset;
@@ -150,7 +172,7 @@ struct MVNodeSaver;
 /// @param _caption 节点标题
 /// @param location 起始位置
 /// @param length 长度
-/// @param saver <#saver description#>
+/// @param saver 在析构时归档生成的子节点
 - (MVNode *)            insertChildWithDetails:(NSString *)_caption location:(uint32_t)location length:(uint32_t)length saver:(MVNodeSaver &)saver;
 - (MVNode *)            findNodeByUserInfo:(NSDictionary *)uinfo;
 - (void)                openDetails;  // open swap file for reading details on demand
@@ -162,35 +184,27 @@ struct MVNodeSaver;
 
 @end
 
+@class MVLayout;
 //----------------------------------------------------------------------------
 @interface MVDataController : NSObject
 {
   NSString *            fileName;         ///< path to the binary handled by this data controller
   NSMutableData *       fileData;         ///< content of the binary
   NSMutableData *       realData;         ///< patched content by relocs and bindings
-  NSMutableArray *      layouts;          ///< 包含 MVLayout 的子类: FatLayout, MachOLayout, ArchiveLayout
-  MVNode *              rootNode;
-  MVNode *              __weak selectedNode;
+  NSMutableArray <MVLayout *>* layouts;          ///< 包含 MVLayout 的子类: FatLayout, MachOLayout, ArchiveLayout
+  MVNode *              rootNode;         ///< 根节点
+  MVNode *              __weak selectedNode;  ///< 当前视图选中正在显示所对应的节点
   NSLock *              treeLock;         ///< semaphore for the node tree
 }
 
 @property (nonatomic)                   NSString *      fileName;       ///< path to the binary handled by this data controller
 @property (nonatomic)                   NSMutableData * fileData;       ///< content of the binary
 @property (nonatomic)                   NSMutableData * realData;       ///< patched content by relocs and bindings
-
-/**
- 包含 MVLayout 的子类: FatLayout, MachOLayout, ArchiveLayout
- @discussion
- 1. 胖文件: 包含 FatLayout 和 各种架构的 MachOLayout
-
- 2. 普通文件: 包含一个 MachOLayout
- 
- 3. 魔数未定义: ArchiveLayout 文件
-*/
-@property (nonatomic,readonly)          NSArray *       layouts;
-@property (nonatomic,readonly)          MVNode *        rootNode;
-@property (nonatomic,weak)              MVNode *        selectedNode;
-@property (nonatomic,readonly)          NSLock *        treeLock;
+/// 包含 MVLayout 的子类: FatLayout, MachOLayout, ArchiveLayout
+@property (nonatomic,readonly)          NSArray<MVLayout *>*       layouts;
+@property (nonatomic,readonly)          MVNode *        rootNode;     ///< 根节点
+@property (nonatomic,weak)              MVNode *        selectedNode; ///< 当前视图选中正在显示所对应的节点
+@property (nonatomic,readonly)          NSLock *        treeLock;     ///< semaphore for the node tree
 
 /// 获取 cpu 类型的字符串
 -(NSString *)           getMachine:(cpu_type_t)cputype;
@@ -198,7 +212,7 @@ struct MVNodeSaver;
 -(NSString *)           getARMCpu:(cpu_subtype_t)cpusubtype;
 
 /**
- 根据 magic 创建对应的布局.
+ 创建文件的布局. 如果是胖文件会递归调用创建 FatLayout 和所有架构
  @discussion
  未知魔数创建 ArchiveLayout
  */
@@ -218,7 +232,8 @@ struct MVNodeSaver;
 @interface MVArchiver : NSObject
 {
   NSString *            swapPath;       ///< 交换文件的路径
-  NSMutableArray *      objectsToSave;  ///< conforms MVSerializing, 待保存的对象
+  /// conforms MVSerializing, 待保存的对象, 包含 MVNode, MVRow
+  NSMutableArray <id<MVSerializing>>*      objectsToSave;
   NSThread *            saverThread;
   NSLock *              saverLock;
 }
@@ -228,7 +243,11 @@ struct MVNodeSaver;
 /// 初始化各属性, 并在 path 的文件写入头部信息: "!<MachoViewSwapFile 1.0>\n"
 /// @param path 设定 swapPath
 +(MVArchiver *) archiverWithPath:(NSString *)path;
--(void) addObjectToSave:(id)object;
+
+/// 添加对象到 objectsToSave 准备归档. 线程安全
+/// @discussion
+/// if the background saver thread has been cancelled, then do one cycle manually
+-(void) addObjectToSave:(id<MVSerializing>)object;
 -(void) suspend;
 -(void) resume;
 -(void) halt;
