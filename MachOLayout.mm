@@ -2232,25 +2232,25 @@ struct CompareSectionByName
   return node;
 }
 //-----------------------------------------------------------------------------
-
+/// 创建 Mach-O 的 64 位节点
 - (MVNode *)createMachO64Node:(MVNode *)parent
                       caption:(NSString *)caption
                      location:(uint32_t)location
                mach_header_64:(struct mach_header_64 const *)mach_header_64
 {
   MVNodeSaver nodeSaver;
-  MVNode * node = [parent insertChildWithDetails:caption location:location length:sizeof(struct mach_header_64) saver:nodeSaver]; 
+  MVNode * node = [parent insertChildWithDetails:caption location:location length:sizeof(struct mach_header_64) saver:nodeSaver];
   
   NSRange range = NSMakeRange(location,0);
   NSString * lastReadHex;
-  
+  // Get Magic Number
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
                          :@"Magic Number"
                          :mach_header_64->magic == MH_MAGIC_64 ? @"MH_MAGIC_64" :
                           mach_header_64->magic == MH_CIGAM_64 ? @"MH_CIGAM_64" : @"???"];
-  
+  // Get CPU Type
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
@@ -2259,7 +2259,7 @@ struct CompareSectionByName
                           mach_header_64->cputype == CPU_TYPE_POWERPC64 ? @"CPU_TYPE_POWERPC64" :
                           mach_header_64->cputype == CPU_TYPE_X86_64 ? @"CPU_TYPE_X86_64" :
                           mach_header_64->cputype == CPU_TYPE_ARM64 ? @"CPU_TYPE_ARM64" : @"???"];
-  
+  // Get CPU SubType
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
@@ -2279,7 +2279,7 @@ struct CompareSectionByName
     if ((mach_header_64->cpusubtype & ~CPU_SUBTYPE_MASK) == CPU_SUBTYPE_ARM64_V8)   [node.details appendRow:@"":@"":@"00000001":@"CPU_SUBTYPE_ARM64_V8"];
   }
 
-  
+  // Get File Type
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
@@ -2295,19 +2295,19 @@ struct CompareSectionByName
                           mach_header_64->filetype == MH_DYLIB_STUB ? @"MH_DYLIB_STUB" :
                           mach_header_64->filetype == MH_DSYM ? @"MH_DSYM" : 
                           mach_header_64->filetype == MH_KEXT_BUNDLE ? @"MH_KEXT_BUNDLE" : @"???"];
-  
+  // Get Number of Load Commands
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
                          :@"Number of Load Commands"
                          :[NSString stringWithFormat:@"%u", mach_header_64->ncmds]];
-  
+  // Get Size of Load Commands
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
                          :@"Size of Load Commands"
                          :[NSString stringWithFormat:@"%u", mach_header_64->sizeofcmds]];
-  
+  // Get Flags
   [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex
@@ -2339,7 +2339,7 @@ struct CompareSectionByName
   if (mach_header_64->flags & MH_DEAD_STRIPPABLE_DYLIB)  [node.details appendRow:@"":@"":@"00400000":@"MH_DEAD_STRIPPABLE_DYLIB"];
   if (mach_header_64->flags & MH_HAS_TLV_DESCRIPTORS)    [node.details appendRow:@"":@"":@"00800000":@"MH_HAS_TLV_DESCRIPTORS"];
   if (mach_header_64->flags & MH_NO_HEAP_EXECUTION)      [node.details appendRow:@"":@"":@"01000000":@"MH_NO_HEAP_EXECUTION"];                                  
-  
+  // Get Reserved
   uint32_t reserved = [dataController read_uint32:range lastReadHex:&lastReadHex];
   [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
                          :lastReadHex

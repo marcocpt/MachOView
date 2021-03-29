@@ -35,29 +35,29 @@ typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMa
 /// 一个架构的 Mach-O 布局. 胖文件包含多个 MachOLayout
 @interface MachOLayout : MVLayout 
 {
-  uint64_t                entryPoint;       // instruction pointer in thread command
+  uint64_t                entryPoint;       ///< instruction pointer in thread command
   
-  CommandVector           commands;         // load commands;Load Commands中的内容，每个只含头两个
-  SegmentVector           segments;         // segment entries for 32-bit architectures
-  Segment64Vector         segments_64;      // segment entries for 64-bit architectures；Load Commands中的内容
-  SectionVector           sections;         // section entries for 32-bit architectures
-  Section64Vector         sections_64;      // section entries for 64-bit architectures；Load Commands中所有LC_SEGMENT_64的子类Section64 Header(***)的集合
-  NListVector             symbols;          // symbol entries in the symbol table for 32-bit architectures
-  NList64Vector           symbols_64;       // symbol entries in the symbol table for 64-bit architectures；Symbol Table中的内容
-  IndirectSymbolVector    isymbols;         // indirect symbols；Dynamic Symbol Table/Indirect Symbols中地址对应的数据,两字节倒序
+  CommandVector           commands;         ///< load commands;Load Commands中的内容，每个只含头两个
+  SegmentVector           segments;         ///< segment entries for 32-bit architectures
+  Segment64Vector         segments_64;      ///< segment entries for 64-bit architectures；Load Commands中的内容
+  SectionVector           sections;         ///< section entries for 32-bit architectures
+  Section64Vector         sections_64;      ///< section entries for 64-bit architectures；Load Commands中所有LC_SEGMENT_64的子类Section64 Header(***)的集合
+  NListVector             symbols;          ///< symbol entries in the symbol table for 32-bit architectures
+  NList64Vector           symbols_64;       ///< symbol entries in the symbol table for 64-bit architectures；Symbol Table中的内容
+  IndirectSymbolVector    isymbols;         ///< indirect symbols；Dynamic Symbol Table/Indirect Symbols中地址对应的数据,两字节倒序
   
-  DylibVector             dylibs;           // imported dynamic libraries
-  ModuleVector            modules;          // module table entries in a dynamic shared library for 32-bit architectures
-  Module64Vector          modules_64;       // module table entries in a dynamic shared library for 64-bit architectures
-  DataInCodeEntryVector   dices;            // data in code entries
-  char const *            strtab;           /// pointer to the string table；String Table中的内容
+  DylibVector             dylibs;           ///< imported dynamic libraries
+  ModuleVector            modules;          ///< module table entries in a dynamic shared library for 32-bit architectures
+  Module64Vector          modules_64;       ///< module table entries in a dynamic shared library for 64-bit architectures
+  DataInCodeEntryVector   dices;            ///< data in code entries
+  char const *            strtab;           ///< pointer to the string table；String Table中的内容
   
-  //RelocMap                relocMap;         // section relocations
-  SegmentInfoMap          segmentInfo;      // segment info lookup table by offset
-  SectionInfoMap          sectionInfo;      // section info lookup table by address
-  ExceptionFrameMap       lsdaInfo;         // LSDA info lookup table by address
+  //RelocMap                relocMap;       ///< section relocations
+  SegmentInfoMap          segmentInfo;      ///< segment info lookup table by offset
+  SectionInfoMap          sectionInfo;      ///< section info lookup table by address
+  ExceptionFrameMap       lsdaInfo;         ///< LSDA info lookup table by address
   
-  NSMutableDictionary *   symbolNames;      // symbol names by address
+  NSMutableDictionary *   symbolNames;      ///< symbol names by address
 }
 
 + (MachOLayout *)layoutWithDataController:(MVDataController *)dc rootNode:(MVNode *)node;
@@ -71,6 +71,7 @@ typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMa
 - (struct dylib const *)getDylibByIndex:(uint32_t)index;
 
 - (NSDictionary *)userInfoForSection:(struct section const *)section;
+/// 包含 section_64 的:sectname, segname, addr 即 MachOLayout
 - (NSDictionary *)userInfoForSection64:(struct section_64 const *)section_64;
 
 - (MVNode *)sectionNodeContainsRVA:(uint32_t)rva;
