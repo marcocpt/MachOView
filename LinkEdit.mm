@@ -893,11 +893,11 @@ using namespace std;
 
     [dataController read_uint32:range lastReadHex:&lastReadHex];
 
-      NSString *desc = @"String Table Index ";
-      
-      if (lastReadHex) {
-          desc =  [desc stringByAppendingString:[NSString stringWithFormat:@",#%ld",strtoul([lastReadHex UTF8String],0,16)]];
-      }
+    NSString *desc = @"String Table Index";
+    
+    if (lastReadHex) {
+      desc =  [desc stringByAppendingString:[NSString stringWithFormat:@": #%ld",strtoul([lastReadHex UTF8String],0,16)]];
+    }
       
      NSString *symbolName = NSSTRING(strtab + nlist_64->n_un.n_strx);
       
