@@ -1030,6 +1030,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
     default:                      return @"???";
     case CPU_SUBTYPE_ARM64_ALL:   return @"ARM64_ALL";
     case CPU_SUBTYPE_ARM64_V8:    return @"ARM64_V8";
+    case CPU_SUBTYPE_ARM64E:      return @"ARM64E";
   }
 }
 
