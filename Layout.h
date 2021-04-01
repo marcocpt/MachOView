@@ -38,6 +38,7 @@
 - (BOOL)                is64bit;
 /// 在主线程解析 `MVLayout` 生成节点对象用于 `leftView` 显示
 - (void)                doMainTasks;
+/// 后台处理 section 等. FatLayout 直接取消线程
 - (void)                doBackgroundTasks;
 - (NSString *)          convertToRVA: (NSString *)offsetStr;
 - (MVNode *)            findNodeByUserInfo:(NSDictionary *)userInfo;

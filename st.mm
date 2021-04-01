@@ -1403,7 +1403,7 @@ static AsmFootPrint const SDK109Target104X86 = {
 {
   if (!dataController) // dataController is weak
     return;
-
+  // createLCThreadNode 函数中会设置 entryPoint
   if (entryPoint == 0)
   {
     return; // not an executable, no entry point, or cannot detect

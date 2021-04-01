@@ -27,10 +27,10 @@ typedef std::vector<struct dylib_module_64 const *>       Module64Vector;
 typedef std::vector<struct data_in_code_entry const *>    DataInCodeEntryVector;
 typedef std::vector<uint32_t const *>                     IndirectSymbolVector;
 
-typedef std::map<uint32_t,std::pair<uint32_t,uint64_t> >        RelocMap;           // fileOffset --> <length,value>
-typedef std::map<uint32_t,std::pair<uint64_t,uint64_t> >        SegmentInfoMap;     // fileOffset --> <address,size>
-typedef std::map<uint64_t,std::pair<uint32_t,NSDictionary * __weak> >  SectionInfoMap;  // address    --> <fileOffset,sectionUserInfo>
-typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMap;  // LSDA_addr  --> PCBegin_addr
+typedef std::map<uint32_t,std::pair<uint32_t,uint64_t> >        RelocMap;           ///< fileOffset --> <length,value>
+typedef std::map<uint32_t,std::pair<uint64_t,uint64_t> >        SegmentInfoMap;     ///< fileOffset --> <address,size>
+typedef std::map<uint64_t,std::pair<uint32_t,NSDictionary * __weak> >  SectionInfoMap;  ///< address    --> <fileOffset,sectionUserInfo>
+typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMap;  ///< LSDA_addr  --> PCBegin_addr
 
 /// 一个架构的 Mach-O 布局. 胖文件包含多个 MachOLayout
 @interface MachOLayout : MVLayout 
@@ -53,8 +53,16 @@ typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMa
   char const *            strtab;           ///< pointer to the string table；String Table中的内容
   
   //RelocMap                relocMap;       ///< section relocations
-  SegmentInfoMap          segmentInfo;      ///< segment info lookup table by offset
-  SectionInfoMap          sectionInfo;      ///< section info lookup table by address
+  SegmentInfoMap          segmentInfo;      ///< segment info lookup table by offset, < fileOffset --> <address,size>
+  
+  /**
+   section info lookup table by address
+   
+   first: section_64->addr;
+   
+   second: (section->offset + imageOffset, userInfo)
+   */
+  SectionInfoMap          sectionInfo;
   ExceptionFrameMap       lsdaInfo;         ///< LSDA info lookup table by address
   
   NSMutableDictionary *   symbolNames;      ///< symbol names by address
@@ -83,10 +91,14 @@ typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMa
 - (NSString *)findSymbolAtRVA:(uint32_t)rva;
 - (NSString *)findSymbolAtRVA64:(uint64_t)rva64;
 
+/// 32 位文件 offset 的虚拟地址偏移
 - (uint32_t)fileOffsetToRVA:(uint32_t)offset;
+/// 64 位文件 offset 的虚拟地址偏移
 - (uint64_t)fileOffsetToRVA64:(uint32_t)offset;
 
+/// 32 位虚拟地址偏移 rva64 的文件偏移
 - (uint32_t)RVAToFileOffset:(uint32_t)rva;
+/// 64 位虚拟地址偏移 rva64 的文件偏移
 - (uint32_t)RVA64ToFileOffset:(uint64_t)rva64;
 
 - (void)addRelocAtFileOffset:(uint32_t)offset withLength:(uint32_t)length andValue:(uint64_t)value;

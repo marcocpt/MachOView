@@ -26,9 +26,9 @@ extern NSString * const MVStatusPenddingKey;
 
 extern NSString * const MVDataTreeWillChangeNotification;   ///< 未使用
 extern NSString * const MVDataTreeDidChangeNotification;    ///< 未使用
-extern NSString * const MVDataTreeChangedNotification;      ///< Document.handleDataTreeChanged:
+extern NSString * const MVDataTreeChangedNotification;      ///< SEL: Document.handleDataTreeChanged:
 extern NSString * const MVDataTableChangedNotification;
-extern NSString * const MVThreadStateChangedNotification;
+extern NSString * const MVThreadStateChangedNotification;   ///< SEL: Document.handleThreadStateChanged:
 
 extern NSString * const MVStatusTaskStarted;
 extern NSString * const MVStatusTaskPendding;
@@ -224,6 +224,10 @@ struct MVNodeSaver;
 /// 投递通知 MVDataTableChangedNotification
 - (void)                updateTableView;
 - (void)                updateStatus: (NSString *)status;
+
+/// 更新状态栏信息
+/// @param status 状态 key
+/// @param statusString 状态内容
 - (void)updateStatus: (NSString *)status :statusString;
 
 @end

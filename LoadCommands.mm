@@ -1202,7 +1202,7 @@ using namespace std;
   return node;
 }
 
-/// 创建 LC_ROUTINES_64 节点
+
 - (MVNode *)createLCLinkeditDataNode:(MVNode *)parent
                            caption:(NSString *)caption
                           location:(uint32_t)location
@@ -1324,7 +1324,7 @@ using namespace std;
   return node;
 }
 
-//-----------------------------------------------------------------------------
+/// 创建 LC_ROUTINES_64 节点
 - (MVNode *)createLCRoutines64Node:(MVNode *)parent
                            caption:(NSString *)caption
                           location:(uint32_t)location
@@ -1981,7 +1981,7 @@ using namespace std;
     [node.details setAttributes:MVCellColorAttributeName,[NSColor greenColor],
      MVUnderlineAttributeName,@"YES",nil];
     
-    // ripped from otool source code
+    // ripped from otool source code: vtool.c - print_source_version_command
     uint64_t a, b, c, d, e;
     NSString *version;
 	a = (source_version_command->version >> 40) & 0xffffff;
@@ -2234,7 +2234,7 @@ using namespace std;
     } break;
       
     case LC_THREAD:
-    case LC_UNIXTHREAD:
+    case LC_UNIXTHREAD: // 测试文件: /usr/lib/dyld
     {
       MATCH_STRUCT(thread_command,location)
       node = [self createLCThreadNode:parent 

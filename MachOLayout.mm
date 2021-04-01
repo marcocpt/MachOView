@@ -213,7 +213,7 @@ using namespace std;
 - (uint32_t)RVA64ToFileOffset: (uint64_t)rva64
 {
   NSParameterAssert([self is64bit] == YES);
-  
+  // upper_bound: Returns an iterator pointing to the first element that is greater than key.
   SectionInfoMap::const_iterator sectIter = sectionInfo.upper_bound(rva64);
   if (sectIter == sectionInfo.begin())
   {
@@ -780,10 +780,10 @@ _hex2int(char const * a, uint32_t len)
                              location:symtab_command->symoff + imageOffset
                                length:symtab_command->nsyms * sizeof(struct nlist_64)];
     
-  stringsNode =  [self createDataNode:rootNode
-                 caption:@"String Table"
-                location:symtab_command->stroff + imageOffset
-                  length:symtab_command->strsize];
+    stringsNode = [self createDataNode:rootNode
+                               caption:@"String Table"
+                              location:symtab_command->stroff + imageOffset
+                                length:symtab_command->strsize];
   }
   
   if (dysymtab_command)
@@ -885,16 +885,16 @@ _hex2int(char const * a, uint32_t len)
     }
   }
   
-    if (stringsNode) {
-        @try {
-            [self createStrings:stringsNode
-                        caption:(lastNodeCaption = @"Strings Parse")
-                       location:stringsNode.dataRange.location
-                         length:stringsNode.dataRange.length];
-        } @catch(NSException * exception) {
-            [self printException:exception caption:lastNodeCaption];
-        }
+  if (stringsNode) {
+    @try {
+      [self createStrings:stringsNode
+                  caption:(lastNodeCaption = @"Strings Parse")
+                 location:stringsNode.dataRange.location
+                   length:stringsNode.dataRange.length];
+    } @catch(NSException * exception) {
+      [self printException:exception caption:lastNodeCaption];
     }
+  }
 
   //=========== Dynamic Symbol Table =============
   //==============================================
@@ -2527,7 +2527,7 @@ struct CompareSectionByName
   NSBlockOperation * linkEditOperation = [NSBlockOperation blockOperationWithBlock:^
   {
     if ([backgroundThread isCancelled]) return;
-      [dataController updateStatus:MVStatusTaskPendding :@"LinkEdit Parsing ..."];
+    [dataController updateStatus:MVStatusTaskPendding :@"LinkEdit Parsing ..."];
     @autoreleasepool {
       if ([self is64bit] == NO) [self processLinkEdit]; else [self processLinkEdit64];
     }

@@ -863,7 +863,7 @@ using namespace std;
 }
 
 //-----------------------------------------------------------------------------
-- (MVNode *) createSymbols64Node:parent 
+- (MVNode *) createSymbols64Node:parent
                          caption:(NSString *)caption
                         location:(uint32_t)location
                           length:(uint32_t)length
@@ -885,7 +885,7 @@ using namespace std;
 
     NSColor * color = nil;
     
-    /* print the symbol nr */
+    /* print the symbol nr 序号 */
     [node.details appendRow:[NSString stringWithFormat:@"#%d", nsym]
                            :@""
                            :@""
@@ -899,7 +899,7 @@ using namespace std;
       desc =  [desc stringByAppendingString:[NSString stringWithFormat:@": #%ld",strtoul([lastReadHex UTF8String],0,16)]];
     }
       
-     NSString *symbolName = NSSTRING(strtab + nlist_64->n_un.n_strx);
+    NSString *symbolName = NSSTRING(strtab + nlist_64->n_un.n_strx);
       
       
     [node.details appendRow:[NSString stringWithFormat:@"%.8lX", range.location]
@@ -1908,7 +1908,7 @@ using namespace std;
                 location:(uint32_t)location
                   length:(uint32_t)length
 {
-    MVNodeSaver nodeSaver;
+                                                                                                                                                    MVNodeSaver nodeSaver;
     MVNode * node = [parent insertChildWithDetails:caption location:location length:length saver:nodeSaver];
     
     NSRange range = NSMakeRange(location,0);
@@ -1939,7 +1939,7 @@ using namespace std;
             uint32_t rva = [self fileOffsetToRVA:range.location];
             [symbolNames setObject:[NSString stringWithFormat:@"0x%X:\"%@\"", rva, symbolName]
                             forKey:[NSNumber numberWithUnsignedLong:rva]];
-  }
+        }
         else
         {
             uint64_t rva64 = [self fileOffsetToRVA64:range.location];

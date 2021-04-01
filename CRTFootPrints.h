@@ -20,6 +20,9 @@ typedef uint8_t AsmFootPrint[][FOOTPRINT_STRIDE];
              asmFootPrint:(const AsmFootPrint)footprint 
                 lineCount:(NSUInteger)lineCount;
                 
+/// 在 MVLayout 根节点上添加 SDK 和 Target 版本
+///
+/// 弃用: 已有 LC_BUILD_VERSION
 - (void) determineRuntimeVersion;
 
 @end

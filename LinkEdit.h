@@ -26,6 +26,7 @@
                       location:(uint32_t)location
                         length:(uint32_t)length;
 
+/// 创建 Symbol Table 的 Symbols 节点
 - (MVNode *) createSymbols64Node:parent 
                          caption:(NSString *)caption
                         location:(uint32_t)location
@@ -90,7 +91,7 @@
                                   length:(uint32_t)length
                                  is64Bit:(BOOL)is64Bit;
 
-
+/// 创建 Strings Parse 节点
 - (MVNode *)createStrings:(MVNode *)parent
                   caption:(NSString *)caption
                  location:(uint32_t)location
