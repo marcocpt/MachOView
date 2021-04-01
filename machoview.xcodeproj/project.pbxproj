@@ -60,6 +60,7 @@
 		7B7828EE1A1E017B00AE03DB /* MCRegisterInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B7828BA1A1E017B00AE03DB /* MCRegisterInfo.c */; };
 		7B7828EF1A1E017B00AE03DB /* SStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B7828BC1A1E017B00AE03DB /* SStream.c */; };
 		7B7828F01A1E017B00AE03DB /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B7828BE1A1E017B00AE03DB /* utils.c */; };
+		85CE97132611C2B300868300 /* NSString+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 85CE97122611C2B300868300 /* NSString+Extensions.m */; };
 		8D11072D0486CEB800E47090 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
@@ -209,6 +210,8 @@
 		7B7828BD1A1E017B00AE03DB /* SStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SStream.h; sourceTree = "<group>"; };
 		7B7828BE1A1E017B00AE03DB /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
 		7B7828BF1A1E017B00AE03DB /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		85CE97112611C2B300868300 /* NSString+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+Extensions.h"; path = "Extensions/NSString+Extensions.h"; sourceTree = "<group>"; };
+		85CE97122611C2B300868300 /* NSString+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extensions.m"; path = "Extensions/NSString+Extensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +229,7 @@
 		080E96DDFE201D6D7F000001 /* machoview */ = {
 			isa = PBXGroup;
 			children = (
+				85CE97102611C27500868300 /* Extensions */,
 				3C871CB1141AC7C100288512 /* Common.h */,
 				256AC3D80F4B6AC300CF3369 /* AppController.h */,
 				256AC3D90F4B6AC300CF3369 /* AppController.mm */,
@@ -498,6 +502,15 @@
 			path = include;
 			sourceTree = "<group>";
 		};
+		85CE97102611C27500868300 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				85CE97112611C2B300868300 /* NSString+Extensions.h */,
+				85CE97122611C2B300868300 /* NSString+Extensions.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -618,6 +631,7 @@
 				7B7828ED1A1E017B00AE03DB /* MCInstrDesc.c in Sources */,
 				7B111E4717DC33F8008ED484 /* Attach.mm in Sources */,
 				3C61A87C1240B0B400BDF3D0 /* SectionContents.mm in Sources */,
+				85CE97132611C2B300868300 /* NSString+Extensions.m in Sources */,
 				7B7828EE1A1E017B00AE03DB /* MCRegisterInfo.c in Sources */,
 				7B7828EA1A1E017B00AE03DB /* X86Module.c in Sources */,
 				3CD037C21248F66C00DCFC68 /* DyldInfo.mm in Sources */,

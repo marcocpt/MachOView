@@ -35,6 +35,10 @@ fG!
 # TODO
 
 - [ ] `__TEXT,__stubs`中的 Data 为汇编，将 Description 改为汇编
+- [ ] [2] LC_DYLD_EXPORTS_TRIE, LC_DYLD_CHAINED_FIXUPS 数据未处理. 测试文件: /usr/lib/dyld
+- [ ] [3] LC_NOTE 节点未处理, 无测试文件
+- [ ] [4] LC_FILESET_ENTRY 节点未处理, 无测试文件
+
 
 # FIXME
 
