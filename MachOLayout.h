@@ -29,7 +29,7 @@ typedef std::vector<uint32_t const *>                     IndirectSymbolVector;
 
 typedef std::map<uint32_t,std::pair<uint32_t,uint64_t> >        RelocMap;           ///< fileOffset --> <length,value>
 typedef std::map<uint32_t,std::pair<uint64_t,uint64_t> >        SegmentInfoMap;     ///< fileOffset --> <address,size>
-typedef std::map<uint64_t,std::pair<uint32_t,NSDictionary * __weak> >  SectionInfoMap;  ///< address    --> <fileOffset,sectionUserInfo>
+typedef std::map<uint64_t,std::pair<uint32_t,NSDictionary * > >  SectionInfoMap;  ///< address    --> <fileOffset,sectionUserInfo>
 typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMap;  ///< LSDA_addr  --> PCBegin_addr
 
 /// 一个架构的 Mach-O 布局. 胖文件包含多个 MachOLayout
