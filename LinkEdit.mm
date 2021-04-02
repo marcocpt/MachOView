@@ -1908,12 +1908,12 @@ using namespace std;
                 location:(uint32_t)location
                   length:(uint32_t)length
 {
-                                                                                                                                                    MVNodeSaver nodeSaver;
+    MVNodeSaver nodeSaver;
     MVNode * node = [parent insertChildWithDetails:caption location:location length:length saver:nodeSaver];
     
     NSRange range = NSMakeRange(location,0);
     NSString * lastReadHex;
-    
+    // 偏移量作为索引
     int index = 0;
     while (NSMaxRange(range) < location + length)
     {
