@@ -60,7 +60,7 @@
   return [[ArchiveLayout alloc] initWithDataController:dc rootNode:node];
 }
 //-----------------------------------------------------------------------------
-
+/// 创建头部签名节点, 固定为 `!<arch>\n`
 - (MVNode *)createSignatureNode:(MVNode *)parent
                         caption:(NSString *)caption
                        location:(uint32_t)location
@@ -80,7 +80,7 @@
   return node;
 }
 //----------------------------------------------------------------------------
-
+/// 创建 Symtab Header  或 Object Header 节点
 - (MVNode *)createHeaderNode:(MVNode *)parent
                      caption:(NSString *)caption
                     location:(uint32_t)location
@@ -129,7 +129,7 @@
                          :@"Size"
                          :[NSString stringWithFormat:@"%u",[size_str intValue]]];
   
-  // read spaces until end-of-header (0x60 0x0A)
+  // read spaces until end-of-header (0x60 0x0A) "`\n"
   NSMutableString * mutableLastReadHex = [[NSMutableString alloc] initWithCapacity:2];
   NSMutableString * padding = [[NSMutableString alloc] initWithCapacity:2];
   for(;;) 
@@ -170,8 +170,14 @@
   
   return node;
 }
-//----------------------------------------------------------------------------
 
+//----------------------------------------------------------------------------
+/// 创建 符号表
+/// @param parent 父节点
+/// @param caption 标题
+/// @param location filedata 中对应的起始位置
+/// @param length filedata 中对应的长度
+/// @param strtab 字符串表的起始指针
 - (MVNode *)createMemberNode:(MVNode *)parent
                      caption:(NSString *)caption
                     location:(uint32_t)location
@@ -291,7 +297,7 @@
                   length:symtabSize
                   strtab:(char *)((uint8_t *)[dataController.fileData bytes] + strtabOffset + sizeof(uint32_t))]; 
   
-  [self createDataNode:rootNode caption:@"String Table" 
+  [self createDataNode:rootNode caption:@"String Table"
               location:strtabOffset 
                 length:strtabSize];
   

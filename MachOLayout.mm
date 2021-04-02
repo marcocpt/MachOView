@@ -139,7 +139,7 @@ using namespace std;
   return NULL;
 }
 
-//-----------------------------------------------------------------------------
+/// 根据 sectname 和 segname 在 this.section_64 中查找 section_64
 -(struct section_64 const *)findSection64ByName:(char const *)sectname 
                                      andSegment:(char const *)segname
 {
@@ -558,16 +558,16 @@ _hex2int(char const * a, uint32_t len)
     }
   }
   
-    if (stringsNode) {
-        @try {
-            [self createStrings:stringsNode
-                        caption:(lastNodeCaption = @"Strings Parse")
-                       location:stringsNode.dataRange.location
-                         length:stringsNode.dataRange.length];
-        } @catch(NSException * exception) {
-            [self printException:exception caption:lastNodeCaption];
-        }
+  if (stringsNode) {
+    @try {
+        [self createStrings:stringsNode
+                    caption:(lastNodeCaption = @"Strings Parse")
+                   location:stringsNode.dataRange.location
+                     length:stringsNode.dataRange.length];
+    } @catch(NSException * exception) {
+      [self printException:exception caption:lastNodeCaption];
     }
+  }
   
   //=========== Dynamic Symbol Table =============
   //==============================================

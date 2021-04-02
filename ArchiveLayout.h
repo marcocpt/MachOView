@@ -10,8 +10,8 @@
 
 @interface MVObjectInfo : NSObject
 {
-  NSString *    name;
-  uint32_t      length;
+  NSString *    name;           ///< 存储 symtab_header->longname
+  uint32_t      length;         ///< symtab_header->size 减去 symtab_header->name 中的数字
   MVLayout *    __weak layout;
 }
 
@@ -21,7 +21,7 @@
 
 @end
 
-/// 归档布局. 魔数未定义时使用
+/// 档案文件布局。静态库文件
 @interface ArchiveLayout : MVLayout 
 {
   NSMutableDictionary * objectInfoMap; // <(NSNumber)object offset,MVObjectInfo>

@@ -1115,7 +1115,9 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
   }
 }
 
-//----------------------------------------------------------------------------
+/// 创建静态库 ".a" 文件布局
+/// @param node 根节点
+/// @param machine 架构的 CPU 类型
 -(void)createArchiveLayout:(MVNode *)node machine:(NSString *)machine
 {
   node.caption = machine ? [NSString stringWithFormat:@"Static Library (%@)", machine] : @"Static Library";
@@ -1125,11 +1127,11 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
   [node.userInfo setObject:layout forKey:MVLayoutUserInfoKey];
     
   if (machine == nil || [self isSupportedMachine:machine])
-    {
+  {
     [layouts addObject:layout];
-    }
-    else
-    {
+  }
+  else
+  {
     // there is no detail to extract
     [layout.archiver halt];
   }
@@ -1173,7 +1175,7 @@ NSString * const MVStatusTaskTerminated           = @"MVStatusTaskTerminated";
         swap_mach_header_64(&mach_header_64, NX_LittleEndian);
       [self createMachO64Layout:parent mach_header_64:&mach_header_64];
     } break;
-    
+    // 静态库文件. 
     default:
       [self createArchiveLayout:parent machine:nil];
   }

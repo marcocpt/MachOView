@@ -106,7 +106,7 @@
   return buffer;
 }
 
-//-----------------------------------------------------------------------------
+/// 在 fileData 中读取 range 内 raw 的数据的 16 进制字符串
 - (NSString *)getHexStr:(NSRange &)range
 {
   NSMutableString * lastReadHex = [NSMutableString stringWithCapacity:2*range.length];

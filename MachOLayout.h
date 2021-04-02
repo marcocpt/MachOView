@@ -70,7 +70,9 @@ typedef std::map<uint64_t,uint64_t>                             ExceptionFrameMa
 
 + (MachOLayout *)layoutWithDataController:(MVDataController *)dc rootNode:(MVNode *)node;
 
+/// 通过 index 获取存储在 sections 中的 section
 - (struct section const *)getSectionByIndex:(uint32_t)index;
+/// 通过 index 获取存储在 sections_64 中的 section_64
 - (struct section_64 const *)getSection64ByIndex:(uint32_t)index;
 
 - (struct nlist const *)getSymbolByIndex:(uint32_t)index;

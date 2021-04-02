@@ -6,7 +6,7 @@
  *
  */
 
-
+/// 获取类型为 obj, 名称也为 obj 的结构体数据
 #define MATCH_STRUCT(obj,location) \
   struct obj const * obj = (struct obj *)[self imageAt:(location)]; \
   if (!obj) [NSException raise:@"null exception" format:@#obj " is null"];

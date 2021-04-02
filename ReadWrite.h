@@ -66,6 +66,11 @@
 - (uint64_t)    read_uleb128:(NSRange &)range;
 
 - (NSString *)  read_string:(NSRange &)range  lastReadHex:(NSString * __autoreleasing *)lastReadHex;
+
+/// 从  fileData 的 range 相邻位置开始, 读取长度为 len 的字符串数据
+/// @param range 相邻位置开始读, 读取后更新为读取的范围
+/// @param len 需要读取的长度
+/// @param lastReadHex 读取的数据的 16 进制字符串
 - (NSString *)  read_string:(NSRange &)range  fixlen:(NSUInteger)len lastReadHex:(NSString * __autoreleasing *)lastReadHex;
 - (NSData *)    read_bytes:(NSRange &)range   length:(NSUInteger)length lastReadHex:(NSString * __autoreleasing *)lastReadHex;
 - (int64_t)     read_sleb128:(NSRange &)range lastReadHex:(NSString * __autoreleasing *)lastReadHex;
